@@ -5,7 +5,6 @@ export type imagesType = {
   position: number[]
   image: string
 }
-// 絵画の型定義をする
 
 export type inputTextTypes = {
   handleKeyPress: KeyboardEventHandler<HTMLInputElement>
