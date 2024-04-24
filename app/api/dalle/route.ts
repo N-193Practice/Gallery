@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Configuration, OpenAIApi } from 'openai'
-
-// OpenAI API key
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+import OpenAPI, { OpenAIError } from 'openai'
 
 // OpenAI API client
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAPI()
 
 // API response limit
 export const config = {
@@ -22,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // OpenAI APIコール
-    const response = await openai.createImage({
+    const response = await openai.images.generate({
       prompt,
       n: 1,
       size: '512x512',
@@ -30,11 +25,17 @@ export async function POST(request: NextRequest) {
     })
 
     // 画像取得
-    const image = response.data.data[0].b64_json
+    const image = response.data[0].b64_json
 
     return NextResponse.json({ photo: image })
-  } catch (error) {
-    console.error(error)
-    return NextResponse.error()
+  } catch (error: any) {
+    console.error('Error occurred:', error)
+
+    if (error instanceof OpenAIError) {
+      return NextResponse.json({ error: error.code }, { status: error.status })
+    } else {
+      // Handle other errors
+      return NextResponse.error()
+    }
   }
 }
