@@ -7,12 +7,12 @@ import { useFrame } from '@react-three/fiber'
 
 import * as THREE from 'three'
 
-// 基本
+// Basic
 const Basic = () => {
   const directionalLight = useRef<THREE.DirectionalLight>(null)
   const boxRef = useRef<THREE.Mesh>(null)
 
-  // ダイレクト光のヘルパー
+  // Helper
   useHelper(
     directionalLight as React.MutableRefObject<THREE.DirectionalLight>,
     THREE.DirectionalLightHelper,
@@ -21,31 +21,31 @@ const Basic = () => {
   )
 
   useFrame((state, delta) => {
-    // 経過時間
+    // elapsed time
     const time = state.clock.elapsedTime
     if (boxRef.current) {
-      // X移動
+      // X
       boxRef.current.position.x = Math.sin(time) + 1.5
-      // Y回転
+      // Y
       boxRef.current.rotation.y += delta
     }
   })
 
   return (
     <>
-      {/* コントロール */}
+      {/* Control */}
       <OrbitControls makeDefault />
 
-      {/* モニター */}
+      {/* Monitor */}
       <Perf position="top-left" />
 
-      {/* 背景 */}
+      {/* Background */}
       <color args={['ivory']} attach="background" />
 
-      {/* 環境光 */}
+      {/* Ambient light */}
       <ambientLight intensity={0.5} />
 
-      {/* 平行光 */}
+      {/* Parallel light */}
       <directionalLight
         castShadow
         ref={directionalLight}
@@ -55,19 +55,19 @@ const Basic = () => {
       />
 
       <group position={[0, -1, 0]}>
-        {/* 球体 */}
+        {/* Sphere */}
         <mesh castShadow position={[-1, 0.6, 0]} scale={0.6}>
           <sphereGeometry />
           <meshStandardMaterial color="orange" />
         </mesh>
 
-        {/* 箱 */}
+        {/* Box */}
         <mesh castShadow position={[1, 0.5, 0]} ref={boxRef}>
           <boxGeometry />
           <meshStandardMaterial color="mediumpurple" />
         </mesh>
 
-        {/* 平面 */}
+        {/* Plane */}
         <mesh receiveShadow rotation-x={-Math.PI * 0.5} scale={10}>
           <planeGeometry />
           <meshStandardMaterial color="lightseagreen" />
@@ -78,4 +78,4 @@ const Basic = () => {
 }
 
 export default Basic
-// オブジェクト
+// Object

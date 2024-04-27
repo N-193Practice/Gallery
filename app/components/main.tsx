@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 import Gallery from './gallery'
 
-// メイン...シーンを作成
+// Main...Create a scene
 const Main = () => {
   return (
     <div className="w-full h-screen overflow-hidden">

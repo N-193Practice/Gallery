@@ -2,7 +2,7 @@
 
 import { MeshReflectorMaterial } from '@react-three/drei'
 
-// 地面
+// Ground
 const Ground = () => {
   return (
     <mesh receiveShadow position={[0, 0, 2]} rotation={[-Math.PI / 2, 0, 0]} scale={[8, 4, 4]}>

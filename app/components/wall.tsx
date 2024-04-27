@@ -1,6 +1,6 @@
 'use client'
 
-// 壁
+// wall
 const Wall = () => {
   return (
     <mesh receiveShadow position={[0, 2, 0]} scale={[8, 4, 4]}>

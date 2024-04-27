@@ -1,8 +1,7 @@
-// Import the necessary modules
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from "openai";
 
-// Initialize the OpenAI API client with your API key
+// Initialize the OpenAI API client with API key
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })

@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from 'react'
 
 const boxGeometry = new THREE.BoxGeometry(1, GOLDENRATIO, 0.05)
 
-// フレーム...フレームアイテムコンポーネントを作成
+// Frame...Create a frame item component
 const FrameItem = ({ data }: { data: imagesType }) => {
   const texture = useTexture(data.image)
   const [hover, setHover] = useState(false)
@@ -17,15 +17,15 @@ const FrameItem = ({ data }: { data: imagesType }) => {
 
   useEffect(() => {
     if (spotLightRef.current && frameRef.current) {
-      // フレームの位置にスポットライトを配置
+      // Place spotlight at frame position
       spotLightRef.current.target = frameRef.current
     }
   }, [spotLightRef, frameRef])
 
-  // ホバー時にカーソルを変更
+  // Change cursor on hover
   useCursor(hover)
 
-  // フレームのサイズを画像のアスペクト比に合わせる
+  // Adjust frame size to image aspect ratio
   const aspectRatio = texture.image.width / texture.image.height
   const scaleY = GOLDENRATIO
   const scaleX = scaleY * aspectRatio
@@ -43,12 +43,12 @@ const FrameItem = ({ data }: { data: imagesType }) => {
         penumbra={0.7}
       />
 
-      {/* フレーム */}
+      {/* Flame */}
       <mesh position={[0, 0.8, 0]} geometry={boxGeometry} castShadow>
         <meshStandardMaterial color="darkgoldenrod" metalness={0.5} roughness={0.2} />
       </mesh>
 
-      {/* 絵 */}
+      {/* Picture */}
       <mesh
         ref={frameRef}
         name={data.id}
@@ -60,7 +60,7 @@ const FrameItem = ({ data }: { data: imagesType }) => {
         material-roughness={1}
         dispose={null}
       >
-        {/* オブジェクトの表面にテクスチャを投影 */}
+        {/* Project a texture onto the surface of an object */}
         <Decal
           position={[0, 0, 0]}
           rotation={[0, 0, 0]}

@@ -30,10 +30,10 @@ const poles = [
   },
 ]
 
-// 円柱
+// cylinder
 const cylinderGeometry = new THREE.CylinderGeometry()
 
-// ポール
+// Pole
 const Pole = () => {
   return (
     <>
@@ -57,4 +57,4 @@ const Pole = () => {
 }
 
 export default Pole
-// ポール作成
+// pole creation

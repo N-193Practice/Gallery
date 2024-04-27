@@ -9,7 +9,7 @@ import { easing } from 'maath'
 import * as THREE from 'three'
 import FrameItem from './frame-item'
 
-// フレームリスト
+// Frame list
 const FrameList = ({ images }: { images: imagesType[] }) => {
   const frameRef = useRef<THREE.Group>(null)
   const clickRef: any = useRef(null)
@@ -19,17 +19,17 @@ const FrameList = ({ images }: { images: imagesType[] }) => {
 
   useEffect(() => {
     if (frameRef.current) {
-      // クリックされたフレームを取得
+      // Get clicked frame
       clickRef.current = frameRef.current.getObjectByName(select)
 
       if (clickRef.current) {
-        // フレームが存在する場合はその位置にカメラを移動
+        // Move the camera to the frame if it exists
         const parent = clickRef.current.parent
         parent.updateWorldMatrix(true, true)
         parent.localToWorld(targetPosition.set(0, GOLDENRATIO / 2, 2.2))
         parent.getWorldQuaternion(targetQuaternion)
       } else {
-        // フレームが存在しない場合はデフォルトの位置に戻す
+        // Revert to default position if frame does not exist
         targetPosition.set(0, 0, 4)
         targetQuaternion.identity()
       }
@@ -37,7 +37,7 @@ const FrameList = ({ images }: { images: imagesType[] }) => {
   }, [select, targetPosition, targetQuaternion])
 
   useFrame((state, delta) => {
-    // カメラの位置をフレームの位置に移動
+    // Move camera position to frame position
     easing.damp3(state.camera.position, targetPosition, 0.4, delta)
     easing.dampQ(state.camera.quaternion, targetQuaternion, 0.4, delta)
   })
@@ -46,11 +46,11 @@ const FrameList = ({ images }: { images: imagesType[] }) => {
     <group
       ref={frameRef}
       onClick={(e) => {
-        // 1回目のクリックでフレームを選択
+        // Select frame on first click
         e.stopPropagation()
         setSelect(e.object.name)
       }}
-      // フレーム以外をクリックした場合はカメラをデフォルトの位置に戻す
+      // If you click outside the frame, return the camera to the default position
       onPointerMissed={() => setSelect('/')}
     >
       {images.map((data, index) => (

@@ -1,7 +1,7 @@
 import { Html } from '@react-three/drei'
 import { inputTextTypes } from './types'
 
-// テキストフォーム
+// text form
 const InputText = ({ handleKeyPress, inputRef, loading }: inputTextTypes) => {
   return (
     <group position={[0, 0.3, 0.05]}>
