@@ -1,41 +1,46 @@
-import { NextRequest, NextResponse } from 'next/server'
-import OpenAPI, { OpenAIError } from 'openai'
+// Import the necessary modules
+import { NextRequest, NextResponse } from 'next/server';
+import OpenAI from "openai";
 
-// OpenAI API client
-const openai = new OpenAPI()
+// Initialize the OpenAI API client with your API key
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+})
 
-// API response limit
-export const config = {
-  api: {
-    responseLimit: false,
-  },
+// Function to generate images based on a text prompt
+async function generateImage() {
+  try {
+    // Call the OpenAI Images API to generate an image
+    const response = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: "a white siamese cat",
+      n: 1,
+      size: "1024x1024",
+    });
+
+    // Extract the URL of the generated image from the response
+    const imageUrl = response.data[0].url;
+
+    // Return the URL of the generated image
+    return imageUrl;
+  } catch (error) {
+    // Handle any errors that occur during image generation
+    console.error("Error generating image:", error);
+    throw error;
+  }
 }
 
+// Handler function for POST requests to the /api/dalle endpoint
 export async function POST(request: NextRequest) {
-  const body = await request.json()
-  const prompt = body.prompt
-
   try {
-    // OpenAI APIコール
-    const response = await openai.images.generate({
-      prompt,
-      n: 1,
-      size: '512x512',
-      response_format: 'b64_json',
-    })
+    // Call the function to generate the image
+    const imageUrl = await generateImage();
 
-    // 画像取得
-    const image = response.data[0].b64_json
-
-    return NextResponse.json({ photo: image })
-  } catch (error: any) {
-    console.error('Error occurred:', error)
-
-    if (error instanceof OpenAIError) {
-      return NextResponse.json({ error: error.code }, { status: error.status })
-    } else {
-      // Handle other errors
-      return NextResponse.error()
-    }
+    // Return a JSON response containing the URL of the generated image
+    return NextResponse.json({ imageUrl });
+  } catch (error) {
+    // Handle any errors that occur during the request
+    console.error("Error handling request:", error);
+    return NextResponse.error();
   }
 }

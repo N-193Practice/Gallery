@@ -2,7 +2,6 @@
 
 import { StrictMode } from 'react'
 import { Canvas } from '@react-three/fiber'
-
 import * as THREE from 'three'
 import Gallery from './gallery'
 
@@ -17,7 +16,7 @@ const Main = () => {
           gl={{
             antialias: true,
             toneMapping: THREE.ACESFilmicToneMapping,
-            outputEncoding: THREE.sRGBEncoding,
+            // outputEncoding: THREE.sRGBEncoding,
           }}
           camera={{
             fov: 45,
