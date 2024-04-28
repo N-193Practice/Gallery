@@ -60,13 +60,13 @@ const Gallery = () => {
             prompt: inputValue,
           }),
         })
-
+      
         const data = await response.json()
-        // 画像をセット
-        setImage(`data:image/png;base64,${data.photo}`)
+        // 画像のURLをセット
+        setImage(data.imageUrl)
       } catch (error) {
         alert(error)
-      }
+      }      
 
       // 入力フォームクリア
       if (inputRef.current) {

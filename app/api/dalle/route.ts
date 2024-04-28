@@ -7,12 +7,12 @@ const openai = new OpenAI({
 })
 
 // Function to generate images based on a text prompt
-async function generateImage() {
+async function generateImage(prompt: string) {
   try {
     // Call the OpenAI Images API to generate an image
     const response = await openai.images.generate({
       model: "dall-e-3",
-      prompt: "a white siamese cat",
+      prompt: prompt,
       n: 1,
       size: "1024x1024",
     });
@@ -32,8 +32,12 @@ async function generateImage() {
 // Handler function for POST requests to the /api/dalle endpoint
 export async function POST(request: NextRequest) {
   try {
+    // Get prompt from request body
+    const requestBody = await request.json();
+    const prompt = requestBody.prompt;
+
     // Call the function to generate the image
-    const imageUrl = await generateImage();
+    const imageUrl = await generateImage(prompt);
 
     // Return a JSON response containing the URL of the generated image
     return NextResponse.json({ imageUrl });
